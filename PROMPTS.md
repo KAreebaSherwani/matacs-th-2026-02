@@ -1,12 +1,16 @@
 # PROMPTS.md
 
-One AI prompt: **fact extraction**. It is the only AI step in the workflow.
+## At a glance
 
-The prompt never scores, ranks, approves or rejects anything, and it never writes the reasons. Eligibility, scoring, ranking and the one-line reasons are all done by code (`prototype/scoring.py` and `prototype/explain.py`).
+| | |
+|---|---|
+| **Number of AI prompts** | One: fact extraction. It is the only AI step in the workflow. |
+| **What the AI does** | Copies facts out of one proposal into fixed JSON, each with an exact quote and page number. |
+| **What the AI never does** | Score, rank, approve, reject or write the reasons. Code does all of that (`prototype/scoring.py`, `prototype/explain.py`). |
+| **Settings** | Temperature 0, one call per proposal. Temperature 0 reduces variation but does not guarantee identical output, so code validates every reply, a reviewer confirms the facts, and the confirmed facts are saved and reused. |
+| **Tested?** | Yes, by hand on B, C and D with Claude Sonnet 5.5. See the Test log at the end. |
 
-Parts in `{{double braces}}` are filled in by code at run time. Everything else is sent exactly as written. The prototype sends these exact messages: they are stored in `prototype/prompts/`, and a test checks that this file matches them. The field list is generated from the admin's criteria (`prototype/criteria_config.json`), so a different category produces a different list without any change to the prompt.
-
-**Settings:** temperature 0, one call per proposal. Temperature 0 reduces variation but does not guarantee identical output, so code validates every reply, a reviewer confirms the facts, and the confirmed facts are saved and reused.
+**How to read the prompt below:** parts in `{{double braces}}` are filled in by code at run time. Everything else is sent exactly as written. These are the exact messages the prototype sends (stored in `prototype/prompts/`), and a test checks that this file matches them. The field list is generated from the admin's criteria (`prototype/criteria_config.json`), so a new category gets a new field list without any change to the prompt.
 
 ---
 
@@ -84,7 +88,7 @@ price_scope_text: string. What the proposal says the price includes or excludes 
 completion_weeks: number. Time to complete after award, in weeks. Null if the schedule is not given as a definite length.
 panel_warranty_years: number. Panel warranty length in years.
 workmanship_warranty_years: number. Workmanship warranty length in years.
-named_project_lead: true / false / null (rule 8). True only if a specific person or a named role holder is identified now; "to be assigned later" is null with status "ambiguous".
+named_project_lead: true / false / null (rule 8). True if the proposal says a named or specific project lead or project manager will lead the work, even if the person's name is not given; "to be assigned later" is null with status "ambiguous".
 crew_size: number. Number of crew members stated; null if not stated.
 safety_plan: true / false / null (rule 8). A site or project safety plan.
 monitoring_plan: true / false / null (rule 8). Ongoing performance monitoring of the installed system. Progress reports during construction do not count.
@@ -100,14 +104,23 @@ monitoring_plan: true / false / null (rule 8). Ongoing performance monitoring of
 
 ---
 
-## Expected behaviour on the samples (design intent only, NOT TESTED)
-
-I have not yet run this prompt against a live model. These are expectations, not results.
+## Expected behaviour on the samples (written before testing)
 
 - **B:** `licence_holder` should be "subcontractor". Code then marks B ineligible because the bidder-held licence is not demonstrated. The prompt does not claim the bidder explicitly has no licence.
-- **C:** the instruction aimed at automated reviewers should appear in `security_flags`, and `monitoring_plan` should be null (progress reports are not performance monitoring). `experience_period_text` should be copied as written, so code can see the period reaches past five years.
-- **D:** `completion_weeks` should be null with status "ambiguous" or "not_stated". Code then flags D.
+- **C:** the instruction aimed at automated reviewers should be reported, `monitoring_plan` should be null (progress reports are not performance monitoring), and `experience_period_text` should be copied as written so code can see the period reaches past five years.
+- **D:** `completion_weeks` should be null. Code then flags D.
 
 ## Test log
 
-[To be completed after running the prompt on B, C and D: model used, date, whether each output matched the expectations above, and any wording changed because of it.]
+**How tested:** 30 Oct 2026, Claude Sonnet 5.5, in a new chat (system and user message pasted together as one message, because the chat interface has no separate system box). One run each for B, C and D. Each reply was checked with `prototype/extract.py --reply`.
+
+| Proposal | Result | Matched expectation? |
+|---|---|---|
+| **B** | `licence_holder` = "subcontractor", so code marks B ineligible. The validator rejected one field: `price_scope_text` had a value but a status other than "confirmed", so it was dropped rather than trusted. | Yes |
+| **C** | Security flag raised: the code's pattern scan matched the embedded instruction. `experience_period_text` = "since 2020". `monitoring_plan` = null (weekly progress reports were not counted as monitoring). `crew_size` = 5. | Yes |
+| **D** | `completion_weeks` = null, so code flags D. | Yes |
+
+**Finding and fix:**
+- **Problem:** the model returned `named_project_lead` = null for C and D. Both proposals say a named project lead or manager will lead the work but do not give the person's name, and my original definition required the person to be identified.
+- **Fix:** the admin criterion is "Named project lead", so I loosened the definition (shown above) to accept a stated named lead even without the name.
+- **Re-test:** C after the change gave `named_project_lead` = true, and all other C fields were unchanged.
