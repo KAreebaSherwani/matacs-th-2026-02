@@ -1,0 +1,37 @@
+[
+  {
+    "proposal": "A",
+    "rank": 1,
+    "status": "ranked",
+    "score": 98.8,
+    "reason": "Ranked 1 of 2, score 98.8/100. Passed all 3 mandatory checks and both project limits. Strongest areas: Relevant experience 100/100 (14 qualifying installs, since 2021); Price 100/100 (CAD 238,000; best ranked bid CAD 238,000); Team and approach 100/100 (has: named project lead, crew size, safety plan, monitoring plan); plus 2 more areas. No weak or incomplete areas."
+  },
+  {
+    "proposal": "E",
+    "rank": 2,
+    "status": "ranked",
+    "score": 88.4,
+    "reason": "Ranked 2 of 2, score 88.4/100. Passed all 3 mandatory checks and both project limits. Strongest areas: Price 98/100 (CAD 242,500; best ranked bid CAD 238,000); Team and approach 100/100 (has: named project lead, crew size, safety plan, monitoring plan); Warranty 100/100 (panel 25 years, workmanship 12 years); plus 1 more area. No weak or incomplete areas."
+  },
+  {
+    "proposal": "C",
+    "rank": null,
+    "status": "flagged",
+    "score": null,
+    "reason": "Not ranked until a reviewer resolves: contains text instructing automated reviewers; it was ignored, and a reviewer must check the document before it can be ranked; Relevant experience: the period \"since 2020\" reaches beyond the 5-year window, so the qualifying count cannot be confirmed."
+  },
+  {
+    "proposal": "D",
+    "rank": null,
+    "status": "flagged",
+    "score": null,
+    "reason": "Not ranked until a reviewer resolves: completion time not stated, so the 16-week limit cannot be checked."
+  },
+  {
+    "proposal": "B",
+    "rank": null,
+    "status": "ineligible",
+    "score": null,
+    "reason": "Ineligible: required bidder-held licence not demonstrated (licensed electrical work is assigned to a subcontractor)."
+  }
+]
