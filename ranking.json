@@ -4,21 +4,21 @@
     "rank": 1,
     "status": "ranked",
     "score": 98.8,
-    "reason": "Ranked 1 of 2, score 98.8/100. Passed all 3 mandatory checks and both project limits. Strongest areas: Relevant experience 100/100 (14 qualifying installs, since 2021); Price 100/100 (CAD 238,000; best ranked bid CAD 238,000); Team and approach 100/100 (has: named project lead, crew size, safety plan, monitoring plan); plus 2 more areas. No weak or incomplete areas."
+    "reason": "Ranked 1 of 2, score 98.8/100. Passed all 3 mandatory checks and both project limits. Strongest areas: Relevant experience 100/100 (14 qualifying installs, since 2021); Price 100/100 (CAD 238,000; best eligible ranked bid CAD 238,000); Team and approach 100/100 (has: named project lead, crew size, safety plan, monitoring plan); plus 2 more areas. No weak or incomplete areas. Notes: Relevant experience: the period \"since 2021\" starts in 2021, the first year of the 5-year window, so a reviewer should confirm no counted install is older than that."
   },
   {
     "proposal": "E",
     "rank": 2,
     "status": "ranked",
     "score": 88.4,
-    "reason": "Ranked 2 of 2, score 88.4/100. Passed all 3 mandatory checks and both project limits. Strongest areas: Price 98/100 (CAD 242,500; best ranked bid CAD 238,000); Team and approach 100/100 (has: named project lead, crew size, safety plan, monitoring plan); Warranty 100/100 (panel 25 years, workmanship 12 years); plus 1 more area. No weak or incomplete areas."
+    "reason": "Ranked 2 of 2, score 88.4/100. Passed all 3 mandatory checks and both project limits. Strongest areas: Price 98/100 (CAD 242,500; best eligible ranked bid CAD 238,000); Team and approach 100/100 (has: named project lead, crew size, safety plan, monitoring plan); Warranty 100/100 (panel 25 years, workmanship 12 years); plus 1 more area. No weak or incomplete areas. Notes: Relevant experience: the period \"since 2021\" starts in 2021, the first year of the 5-year window, so a reviewer should confirm no counted install is older than that."
   },
   {
     "proposal": "C",
     "rank": null,
     "status": "flagged",
     "score": null,
-    "reason": "Not ranked until a reviewer resolves: contains text instructing automated reviewers; it was ignored, and a reviewer must check the document before it can be ranked; Relevant experience: the period \"since 2020\" reaches beyond the 5-year window, so the qualifying count cannot be confirmed."
+    "reason": "Not ranked until a reviewer resolves: Relevant experience: the period \"since 2020\" reaches beyond the 5-year window, so the qualifying count cannot be confirmed. Notes: an instruction aimed at automated reviewers was detected and ignored; it is recorded in the audit log for a reviewer to acknowledge."
   },
   {
     "proposal": "D",
