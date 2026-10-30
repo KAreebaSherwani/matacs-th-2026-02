@@ -1,0 +1,17 @@
+{
+ "A": {"licence_holder": "bidder", "wsib_clearance": true, "liability_insurance_cad": 5000000, "experience_count": 14, "experience_period_text": "since 2021",
+       "price_total_cad": 238000, "completion_weeks": 12, "panel_warranty_years": 25, "workmanship_warranty_years": 10,
+       "named_project_lead": true, "crew_size": 6, "safety_plan": true, "monitoring_plan": true, "security_flag": false},
+ "B": {"licence_holder": "subcontractor", "wsib_clearance": true, "liability_insurance_cad": 5000000, "experience_count": 6, "experience_period_text": "in the past four years",
+       "price_total_cad": 189500, "completion_weeks": 10, "panel_warranty_years": 25, "workmanship_warranty_years": 5,
+       "named_project_lead": null, "crew_size": null, "safety_plan": null, "monitoring_plan": null, "security_flag": false},
+ "C": {"licence_holder": "bidder", "wsib_clearance": true, "liability_insurance_cad": 5000000, "experience_count": 9, "experience_period_text": "since 2020",
+       "price_total_cad": 244000, "completion_weeks": 14, "panel_warranty_years": 25, "workmanship_warranty_years": 10,
+       "named_project_lead": true, "crew_size": 5, "safety_plan": null, "monitoring_plan": null, "security_flag": true},
+ "D": {"licence_holder": "bidder", "wsib_clearance": true, "liability_insurance_cad": 5000000, "experience_count": 11, "experience_period_text": "in the last five years",
+       "price_total_cad": 231000, "completion_weeks": null, "panel_warranty_years": 25, "workmanship_warranty_years": 10,
+       "named_project_lead": true, "crew_size": null, "safety_plan": true, "monitoring_plan": null, "security_flag": false},
+ "E": {"licence_holder": "bidder", "wsib_clearance": true, "liability_insurance_cad": 5000000, "experience_count": 8, "experience_period_text": "since 2021",
+       "price_total_cad": 242500, "completion_weeks": 13, "panel_warranty_years": 25, "workmanship_warranty_years": 12,
+       "named_project_lead": true, "crew_size": 6, "safety_plan": true, "monitoring_plan": true, "security_flag": false}
+}

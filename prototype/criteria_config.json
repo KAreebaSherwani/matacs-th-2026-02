@@ -1,0 +1,71 @@
+{
+  "category": "Commercial Solar Installation",
+  "version": "1.0",
+  "as_of_year": 2026,
+  "rounding": 1,
+  "mandatory_checks": [
+    {"id": "licence", "label": "Ontario electrical contractor licence held by the bidder", "kind": "enum", "fact": "licence_holder",
+     "pass": ["bidder"],
+     "fail": {"subcontractor": "required bidder-held licence not demonstrated (licensed electrical work is assigned to a subcontractor)",
+              "none": "proposal states the bidder holds no required licence"},
+     "missing": "licence holder not stated"},
+    {"id": "wsib", "label": "WSIB clearance", "kind": "boolean", "fact": "wsib_clearance",
+     "fail": "proposal states the bidder has no WSIB clearance", "missing": "WSIB clearance not stated"},
+    {"id": "insurance", "label": "$5M liability insurance", "kind": "min_number", "fact": "liability_insurance_cad", "min": 5000000,
+     "fail": "liability insurance below the required $5M", "missing": "liability insurance not stated"}
+  ],
+  "project_limits": [
+    {"id": "budget", "label": "Within the $260,000 budget ceiling", "kind": "max_number", "fact": "price_total_cad", "max": 260000,
+     "fail": "price over the $260,000 budget ceiling", "missing": "price not stated"},
+    {"id": "deadline", "label": "Complete within 16 weeks of award", "kind": "max_number", "fact": "completion_weeks", "max": 16,
+     "fail": "completion time over the 16-week limit", "missing": "completion time not stated, so the 16-week limit cannot be checked"}
+  ],
+  "security_flag_message": "contains text instructing automated reviewers; it was ignored, and a reviewer must check the document before it can be ranked",
+  "criteria": [
+    {"id": "experience", "label": "Relevant experience", "weight": 30, "method": "capped_linear",
+     "fact": "experience_count", "full_marks": 12, "window": {"period_fact": "experience_period_text", "years": 5},
+     "on_missing": "flag", "detail": "{experience_count} qualifying installs, {experience_period_text}",
+     "description": "min(100, qualifying installs in the window / 12 x 100)"},
+    {"id": "price", "label": "Price", "weight": 25, "method": "ratio_to_best", "fact": "price_total_cad", "lower_is_better": true,
+     "on_missing": "flag", "detail": "CAD {price_total_cad:,}; best ranked bid CAD {best:,}",
+     "description": "lowest price among ranked bids / this price x 100"},
+    {"id": "timeline", "label": "Timeline", "weight": 15, "method": "ratio_to_best", "fact": "completion_weeks", "lower_is_better": true,
+     "on_missing": "flag", "detail": "{completion_weeks} weeks; fastest ranked bid {best} weeks",
+     "description": "fewest weeks among ranked bids / this bid's weeks x 100"},
+    {"id": "warranty", "label": "Warranty", "weight": 15, "method": "capped_average",
+     "facts": [{"fact": "panel_warranty_years", "label": "panel warranty", "full_marks": 25},
+               {"fact": "workmanship_warranty_years", "label": "workmanship warranty", "full_marks": 12}],
+     "on_missing": "flag", "detail": "panel {panel_warranty_years} years, workmanship {workmanship_warranty_years} years",
+     "description": "average of min(100, panel years / 25 x 100) and min(100, workmanship years / 12 x 100)"},
+    {"id": "team", "label": "Team and approach", "weight": 15, "method": "checklist",
+     "items": [{"fact": "named_project_lead", "label": "named project lead"}, {"fact": "crew_size", "label": "crew size"},
+               {"fact": "safety_plan", "label": "safety plan"}, {"fact": "monitoring_plan", "label": "monitoring plan"}],
+     "on_missing": "zero", "description": "25 points for each item the proposal states; items not stated earn 0 and are listed"}
+  ],
+  "tie_break": [
+    {"by": "total"},
+    {"by": "score", "id": "experience"},
+    {"by": "fact", "name": "price_total_cad", "order": "asc"},
+    {"by": "fact", "name": "completion_weeks", "order": "asc"}
+  ],
+  "explanation": {"strong_at": 80, "weak_below": 50, "max_items": 3},
+  "extraction_fields": [
+    {"name": "bidder_name", "type": "string", "definition": "string. The company submitting the proposal."},
+    {"name": "licence_holder", "type": "enum", "values": ["bidder", "subcontractor", "none", "not_stated"],
+     "definition": "exactly one of \"bidder\", \"subcontractor\", \"none\", \"not_stated\". \"bidder\": the bidder itself states it holds an Ontario electrical contractor licence. \"subcontractor\": the proposal says the licensed electrical work will be done by another party, and does not say the bidder itself holds the licence. \"none\": the proposal explicitly says the bidder holds no such licence. \"not_stated\": the proposal says nothing about who holds the licence. The value is always one of these four words. Use status \"confirmed\" for the first three, \"not_stated\" for \"not_stated\", and \"ambiguous\" (with value \"not_stated\") when the wording is too unclear to choose."},
+    {"name": "licence_number", "type": "string", "definition": "string. The bidder's own licence number, copied exactly as written; null if only another party's licence is mentioned."},
+    {"name": "wsib_clearance", "type": "boolean", "definition": "true / false / null (rule 8). The bidder's own WSIB clearance."},
+    {"name": "liability_insurance_cad", "type": "number", "definition": "number. The liability coverage the bidder itself states it carries, as a plain number in CAD (for example 5000000). Null if not stated or attributed to another party. Use 0 only if the proposal explicitly says the bidder carries none."},
+    {"name": "experience_count", "type": "number", "definition": "number. How many commercial installations of 100 kW or more the bidder says it completed."},
+    {"name": "experience_period_text", "type": "string", "definition": "string. The words the proposal uses for the time period of that experience (for example \"since 2021\" or \"in the last three years\"), copied exactly."},
+    {"name": "price_total_cad", "type": "number", "definition": "number. The total price in CAD as a plain number."},
+    {"name": "price_scope_text", "type": "string", "definition": "string. What the proposal says the price includes or excludes (permits, utility connection, taxes), copied exactly; null if it says nothing."},
+    {"name": "completion_weeks", "type": "number", "definition": "number. Time to complete after award, in weeks. Null if the schedule is not given as a definite length."},
+    {"name": "panel_warranty_years", "type": "number", "definition": "number. Panel warranty length in years."},
+    {"name": "workmanship_warranty_years", "type": "number", "definition": "number. Workmanship warranty length in years."},
+    {"name": "named_project_lead", "type": "boolean", "definition": "true / false / null (rule 8). True only if a specific person or a named role holder is identified now; \"to be assigned later\" is null with status \"ambiguous\"."},
+    {"name": "crew_size", "type": "number", "definition": "number. Number of crew members stated; null if not stated."},
+    {"name": "safety_plan", "type": "boolean", "definition": "true / false / null (rule 8). A site or project safety plan."},
+    {"name": "monitoring_plan", "type": "boolean", "definition": "true / false / null (rule 8). Ongoing performance monitoring of the installed system. Progress reports during construction do not count."}
+  ]
+}

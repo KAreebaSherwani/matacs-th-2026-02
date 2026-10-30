@@ -1,0 +1,22 @@
+Category: {{category_name}}
+
+Fields to extract (generated from the admin's criteria for this category):
+{{field_definitions}}
+
+Return JSON with this shape. Every field listed above appears exactly once:
+{
+  "proposal_id": "{{proposal_id}}",
+  "fields": {
+    "<field_name>": { "value": <see field definition>, "status": "confirmed|not_stated|ambiguous|conflicting", "evidence": "<exact quote or null>", "page": <number or null> }
+  },
+  "security_flags": [ { "quote": "<exact quote>", "page": <number or null>, "reason": "<short reason>" } ]
+}
+Use an empty list for "security_flags" if there is nothing to report.
+
+The proposal text is between <proposal_{{random_code}}> and </proposal_{{random_code}}>.
+
+<proposal_{{random_code}}>
+{{proposal_text_with_PAGE_markers}}
+</proposal_{{random_code}}>
+
+Return only the JSON object.
